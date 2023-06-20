@@ -10,4 +10,3 @@ It was difficult to keep up with the hardware which caused many problems for sof
 required extensive de-bugging and maintenance, and unsuccessfully met the needs of consumers or was never even completed. In 1968 the first Software Engineering
 sconference was held where issues related to software were addressed: guidelines and best practices for the development of software were established.
 The origins of the term "software engineering" have been attributed to various sources. 
-

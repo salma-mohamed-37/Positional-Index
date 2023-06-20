@@ -1,8 +1,15 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 
-import java.io.*;
-import java.util.*;
-
-public class Index
+public class PositionalIndex 
 {
 	public HashMap<String, DictEntry> index = new HashMap<String, DictEntry> ();
 	List <String> stopWords = new ArrayList<String>(Arrays.asList("too","with","the","a","to","i","and","this","so","then","or","on","of","no","in","for","only","from","but","by","at","as"));
@@ -61,10 +68,25 @@ public class Index
 	public void printResults(String query)
 	{
 		Set<Integer> docs = searchInIndex(query); //the documents that contains the whole query
-		for (int d: docs)
+		if(Objects.isNull(docs))
 		{
-			System.out.println("Document "+d);
+			System.out.println("There is at least one term in the query is not in the index or you entered one word");
 		}
+		else
+		{
+			if(docs.size() == 0)
+			{
+				System.out.println("No documents contains the whole query with this order");
+			}
+			else
+			{
+				for (int d: docs)
+				{
+					System.out.println("Document "+d);
+				}
+			}
+		}
+		
 	}
 	
 	public Set<Integer> searchInIndex(String query) //search in index for documents contain the whole query and return them in set
@@ -73,6 +95,10 @@ public class Index
 		List<String> queryTerms = Arrays.asList(query.split("\\s+"));
 		for(int i =0 ;i<queryTerms.size()-1;i++)
 		{
+			if (!(index.containsKey(queryTerms.get(i))) || !(index.containsKey(queryTerms.get(i+1))))
+			{
+				return null ;
+			}
 			Posting p1 =index.get(queryTerms.get(i)).pList;
 			Posting p2 =index.get(queryTerms.get(i+1)).pList;
 			Set<Integer> docIds = new HashSet<Integer>();   // document ids contain every two terms
@@ -117,4 +143,4 @@ public class Index
 		return result;
 	}
 	
-}
+}	
